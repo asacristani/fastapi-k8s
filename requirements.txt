@@ -1,3 +1,4 @@
+# Base
 fastapi
 uvicorn[standard]
 psycopg2-binary
@@ -5,3 +6,11 @@ sqlalchemy
 python-dotenv
 celery
 redis
+
+# Dev
+pytest
+pytest-cov
+pre-commit
+black
+flake8
+isort

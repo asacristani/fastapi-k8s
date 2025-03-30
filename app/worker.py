@@ -1,5 +1,6 @@
-from app.tasks import celery_app
 from celery.schedules import crontab
+
+from app.tasks import celery_app
 
 celery_app.conf.beat_schedule = {
     "scheduled-hello-task": {

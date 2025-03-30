@@ -1,23 +1,23 @@
-from fastapi import FastAPI, Depends
-from sqlalchemy import text
-from app.database import get_db
-from app.tasks import ping_task
-import redis
 import os
 
+import redis
+from fastapi import Depends, FastAPI
+from sqlalchemy import text
+
+from app.database import get_db
+from app.tasks import ping_task
+
 app = FastAPI()
+
 
 @app.get("/")
 def read_root():
     return {"message": "Hello, world!"}
 
+
 @app.get("/healthcheck")
 def healthcheck(db=Depends(get_db)) -> dict:
-    status = {
-        "postgres": False,
-        "redis": False,
-        "celery": False
-    }
+    status = {"postgres": False, "redis": False, "celery": False}
 
     # Check DB
     try:
