@@ -8,6 +8,8 @@ celery
 redis
 
 # Dev
+pytest
+pytest-cov
 pre-commit
 black
 flake8

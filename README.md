@@ -71,22 +71,42 @@ Use the Authorization: Bearer <token> header to access protected routes.
 - `PUT /claims/{id}` – Update claim status or data
 - `DELETE /claims/{id}` – Delete a claim
 
-## 🧪 Running Tests
+## ✅ Code Quality and Testing
+
+This project uses a pre-commit pipeline and CI to enforce code quality and test coverage.
+
+### 🧪 Run tests with coverage
 
 ```bash
-pytest
+pytest --cov=app --cov-report=term-missing
 ```
 
-Tests are written to follow the TDD approach and cover authentication, validation, and business logic.
+### 🧹 Code formatting and linting
+We use:
 
-## ⚙️ Continuous Integration
+- black – code formatter
+- flake8 – syntax/style linter
+- isort – import sorter
 
-GitHub Actions pipeline includes:
+Run them all via pre-commit:
 
-- Linting and formatting
-- Running all tests
-- Building the Docker image
-- (Optional) Pushing to Docker Hub or deploying to Kubernetes
+```bash
+# One-time install
+pip install pre-commit
+pre-commit install
+
+# Run on all files
+pre-commit run --all-files
+```
+
+These checks are also executed automatically on each git commit and in the CI pipeline.
+
+### ⚙️ Continuous Integration
+
+GitHub Actions will automatically:
+
+- Run pre-commit checks
+- Run tests with pytest and coverage report
 
 CI workflow located at: `.github/workflows/ci.yml`
 
