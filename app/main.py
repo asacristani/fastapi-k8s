@@ -6,6 +6,7 @@ from fastapi import FastAPI
 
 from app.database import init_db, mongo_client
 from app.tasks import ping_task
+from app.claims.routes import router as claims_router
 
 
 @asynccontextmanager
@@ -15,6 +16,7 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(lifespan=lifespan)
+app.include_router(claims_router)
 
 
 @app.get("/")

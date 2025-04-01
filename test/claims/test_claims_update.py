@@ -45,10 +45,11 @@ async def test_update_claim_unauthenticated(client: AsyncClient):
 @pytest.mark.asyncio
 async def test_update_claim_not_found(client: AsyncClient):
     token = "fake-token"
+    fake_id = "65f00dfb62f57c0b93a0dead"
     update_data = {"description": "Doesn't matter"}
 
     resp = await client.put(
-        "/claims/nonexistentid",
+        f"/claims/{fake_id}",
         headers={"Authorization": f"Bearer {token}"},
         json=update_data,
     )

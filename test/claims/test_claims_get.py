@@ -16,7 +16,7 @@ async def test_get_claim_ok(client: AsyncClient, test_db):
         "/claims", headers={"Authorization": f"Bearer {token}"}, json=payload
     )
     assert create_resp.status_code == 201
-    claim_id = create_resp.json()["_id"]
+    claim_id = create_resp.json()["id"]
 
     get_resp = await client.get(
         f"/claims/{claim_id}", headers={"Authorization": f"Bearer {token}"}

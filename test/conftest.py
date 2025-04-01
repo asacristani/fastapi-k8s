@@ -4,7 +4,7 @@ from httpx import ASGITransport, AsyncClient
 from motor.motor_asyncio import AsyncIOMotorClient
 
 from app.main import app
-from app.models.claim import Claim
+from app.claims.models import Claim
 
 TEST_DB_URL = "mongodb://localhost:27017"
 TEST_DB_NAME = "test_db"
