@@ -1,19 +1,15 @@
 import os
 
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
+from beanie import init_beanie
+from motor.motor_asyncio import AsyncIOMotorClient
 
-DATABASE_URL = os.getenv(
-    "DATABASE_URL", "postgresql://postgres:postgres@db:5432/claims_db"
-)
+from app.models.claim import Claim
 
-engine = create_engine(DATABASE_URL)
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+MONGO_URL = os.getenv("MONGO_URL", "mongodb://mongo:27017")
+
+mongo_client = AsyncIOMotorClient(MONGO_URL)
+db = mongo_client["claims_db"]
 
 
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
+async def init_db():
+    await init_beanie(database=db, document_models=[Claim])
