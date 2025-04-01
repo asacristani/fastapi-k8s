@@ -11,16 +11,12 @@ jobs:
     runs-on: ubuntu-latest
 
     services:
-      postgres:
-        image: postgres:15
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: claims_db
+      mongo:
+        image: mongo:6
         ports:
-          - 5432:5432
+          - 27017:27017
         options: >-
-          --health-cmd="pg_isready"
+          --health-cmd="mongosh --eval 'db.adminCommand(\"ping\")'"
           --health-interval=10s
           --health-timeout=5s
           --health-retries=5
@@ -31,7 +27,7 @@ jobs:
           - 6379:6379
 
     env:
-      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/claims_db
+      DATABASE_URL: mongodb://localhost:27017/test_db
       CELERY_BROKER_URL: redis://localhost:6379/0
       CELERY_RESULT_BACKEND: redis://localhost:6379/0
       SECRET_KEY: test

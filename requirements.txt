@@ -1,16 +1,18 @@
 # Base
 fastapi
 uvicorn[standard]
-psycopg2-binary
-sqlalchemy
 python-dotenv
 celery
 redis
+motor
+beanie
 
 # Dev
 pytest
 pytest-cov
+pytest-asyncio
+greenlet
+asyncpg
+httpx
 pre-commit
-black
-flake8
-isort
+ruff

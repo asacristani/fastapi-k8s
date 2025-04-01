@@ -1,6 +1,6 @@
 # 🛡️ Insurance Claims API
 
-Simple RESTful API built with FastAPI to manage insurance claims.  
+Simple RESTful API built with FastAPI to manage insurance claims.
 This project demonstrates good backend engineering practices, including TDD, authentication, CI/CD, Kubernetes deployment, and observability.
 
 

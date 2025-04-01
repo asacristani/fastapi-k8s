@@ -1,13 +1,22 @@
 import os
+from contextlib import asynccontextmanager
 
 import redis
-from fastapi import Depends, FastAPI
-from sqlalchemy import text
+from fastapi import FastAPI
 
-from app.database import get_db
+from app.database import init_db, mongo_client
 from app.tasks import ping_task
+from app.claims.routes import router as claims_router
 
-app = FastAPI()
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    await init_db()
+    yield
+
+
+app = FastAPI(lifespan=lifespan)
+app.include_router(claims_router)
 
 
 @app.get("/")
@@ -16,13 +25,13 @@ def read_root():
 
 
 @app.get("/healthcheck")
-def healthcheck(db=Depends(get_db)) -> dict:
-    status = {"postgres": False, "redis": False, "celery": False}
+async def healthcheck() -> dict:
+    status = {"mongo": False, "redis": False, "celery": False}
 
-    # Check DB
+    # Check MongoDB
     try:
-        db.execute(text("SELECT 1"))
-        status["postgres"] = True
+        await mongo_client.admin.command("ping")
+        status["mongo"] = True
     except Exception:
         pass
 
