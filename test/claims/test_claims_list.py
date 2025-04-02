@@ -3,8 +3,7 @@ from httpx import AsyncClient
 
 
 @pytest.mark.asyncio
-async def test_list_claims_ok(client: AsyncClient, test_db):
-    token = "fake-token"
+async def test_list_claims_ok(client: AsyncClient, create_token):
     payload_1 = {
         "policy_number": "POL1001",
         "claim_type": "accidente",
@@ -19,13 +18,15 @@ async def test_list_claims_ok(client: AsyncClient, test_db):
     }
 
     await client.post(
-        "/claims", headers={"Authorization": f"Bearer {token}"}, json=payload_1
+        "/claims", headers={"Authorization": f"Bearer {create_token}"}, json=payload_1
     )
     await client.post(
-        "/claims", headers={"Authorization": f"Bearer {token}"}, json=payload_2
+        "/claims", headers={"Authorization": f"Bearer {create_token}"}, json=payload_2
     )
 
-    resp = await client.get("/claims", headers={"Authorization": f"Bearer {token}"})
+    resp = await client.get(
+        "/claims", headers={"Authorization": f"Bearer {create_token}"}
+    )
     assert resp.status_code == 200
 
     data = resp.json()
@@ -39,4 +40,4 @@ async def test_list_claims_ok(client: AsyncClient, test_db):
 @pytest.mark.asyncio
 async def test_list_claims_unauthenticated(client: AsyncClient):
     resp = await client.get("/claims")
-    assert resp.status_code == 401
+    assert resp.status_code == 403

@@ -60,6 +60,7 @@ Once running, visit:
 Endpoints:
 - `POST /auth/register` – Create a new user
 - `POST /auth/login` – Retrieve a JWT token
+- `GET /auth/me` - Get the user data
 
 Use the Authorization: Bearer <token> header to access protected routes.
 

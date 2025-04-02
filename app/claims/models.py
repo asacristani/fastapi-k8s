@@ -20,17 +20,17 @@ class Claim(Document):
 
     @classmethod
     async def create(cls, data: BaseModel, user: User) -> Claim:
-        claim = cls(**data.model_dump(), user_id=user.id)
+        claim = cls(**data.model_dump(), user_id=str(user.id))
         await claim.insert()
         return claim
 
     @classmethod
     async def get_by_id(cls, claim_id: str, user: User) -> Claim | None:
-        return await cls.find_one({"_id": ObjectId(claim_id), "user_id": user.id})
+        return await cls.find_one({"_id": ObjectId(claim_id), "user_id": str(user.id)})
 
     @classmethod
     async def list_by_user(cls, user: User) -> list[Claim]:
-        return await cls.find({"user_id": user.id}).to_list()
+        return await cls.find({"user_id": str(user.id)}).to_list()
 
     async def update_fields(self, data: BaseModel) -> Claim:
         update_data = data.model_dump(exclude_unset=True)
