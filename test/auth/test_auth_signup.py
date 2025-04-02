@@ -10,7 +10,7 @@ async def test_signup_success(client: AsyncClient):
     assert response.status_code == 201
     data = response.json()
     assert data["email"] == payload["email"]
-    assert "id" in data
+    assert "_id" in data
 
 
 @pytest.mark.asyncio
