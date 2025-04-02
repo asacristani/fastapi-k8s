@@ -1,3 +1,5 @@
+[![codecov](https://codecov.io/gh/asacristani/fastapi-k8s/branch/main/graph/badge.svg)](https://codecov.io/gh/tu-usuario/tu-repo)
+
 # 🛡️ Insurance Claims API
 
 Simple RESTful API built with FastAPI to manage insurance claims.
