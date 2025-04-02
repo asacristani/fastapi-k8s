@@ -1,3 +1,7 @@
+![Python](https://img.shields.io/badge/python-3.11+-blue.svg)
+[![CI](https://github.com/asacristani/fastapi-k8s/actions/workflows/ci.yml/badge.svg)](https://github.com/asacristani/fastapi-k8s/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/asacristani/fastapi-k8s/branch/main/graph/badge.svg)](https://codecov.io/gh/tu-usuario/tu-repo)
+
 # 🛡️ Insurance Claims API
 
 Simple RESTful API built with FastAPI to manage insurance claims.
