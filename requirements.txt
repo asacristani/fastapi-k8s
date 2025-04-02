@@ -1,11 +1,16 @@
 # Base
 fastapi
+pydantic[email]
 uvicorn[standard]
 python-dotenv
 celery
 redis
 motor
 beanie
+passlib
+python-jose >= 3.3.0
+bcrypt
+
 
 # Dev
 pytest

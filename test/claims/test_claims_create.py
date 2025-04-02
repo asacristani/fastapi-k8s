@@ -2,8 +2,7 @@ import pytest
 
 
 @pytest.mark.asyncio
-async def test_create_claim_ok(client):
-    token = "fake-token"
+async def test_create_claim_ok(client, create_token):
     payload = {
         "policy_number": "POL123456",
         "claim_type": "robo",
@@ -12,7 +11,7 @@ async def test_create_claim_ok(client):
     }
 
     response = await client.post(
-        "/claims", headers={"Authorization": f"Bearer {token}"}, json=payload
+        "/claims", headers={"Authorization": f"Bearer {create_token}"}, json=payload
     )
 
     assert response.status_code == 201

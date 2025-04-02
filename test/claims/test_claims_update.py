@@ -3,8 +3,7 @@ from httpx import AsyncClient
 
 
 @pytest.mark.asyncio
-async def test_update_claim_ok(client: AsyncClient, test_db):
-    token = "fake-token"
+async def test_update_claim_ok(client: AsyncClient, create_token):
     payload = {
         "policy_number": "POL9999",
         "claim_type": "robo",
@@ -13,7 +12,7 @@ async def test_update_claim_ok(client: AsyncClient, test_db):
     }
 
     create_resp = await client.post(
-        "/claims", headers={"Authorization": f"Bearer {token}"}, json=payload
+        "/claims", headers={"Authorization": f"Bearer {create_token}"}, json=payload
     )
     assert create_resp.status_code == 201
     created = create_resp.json()
@@ -23,7 +22,7 @@ async def test_update_claim_ok(client: AsyncClient, test_db):
 
     update_resp = await client.put(
         f"/claims/{claim_id}",
-        headers={"Authorization": f"Bearer {token}"},
+        headers={"Authorization": f"Bearer {create_token}"},
         json=update_data,
     )
     assert update_resp.status_code == 200
@@ -39,18 +38,17 @@ async def test_update_claim_unauthenticated(client: AsyncClient):
     update_data = {"description": "This should not succeed"}
 
     resp = await client.put("/claims/123456", json=update_data)
-    assert resp.status_code == 401
+    assert resp.status_code == 403
 
 
 @pytest.mark.asyncio
-async def test_update_claim_not_found(client: AsyncClient):
-    token = "fake-token"
+async def test_update_claim_not_found(client: AsyncClient, create_token):
     fake_id = "65f00dfb62f57c0b93a0dead"
     update_data = {"description": "Doesn't matter"}
 
     resp = await client.put(
         f"/claims/{fake_id}",
-        headers={"Authorization": f"Bearer {token}"},
+        headers={"Authorization": f"Bearer {create_token}"},
         json=update_data,
     )
     assert resp.status_code == 404
