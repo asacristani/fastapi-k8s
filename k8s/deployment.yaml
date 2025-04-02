@@ -1,0 +1,36 @@
+# k8s/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fastapi-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fastapi-web
+  template:
+    metadata:
+      labels:
+        app: fastapi-web
+    spec:
+      containers:
+        - name: fastapi
+          image: fastapi-k8s:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8000
+          env:
+            - name: DATABASE_URL
+              value: mongodb://mongo:27017/test_db
+            - name: SECRET_KEY
+              value: your-secret-key
+            - name: ALGORITHM
+              value: HS256
+            - name: ACCESS_TOKEN_EXPIRE_MINUTES
+              value: "30"
+            - name: CELERY_BROKER_URL
+              value: redis://redis:6379/0
+            - name: CELERY_RESULT_BACKEND
+              value: redis://redis:6379/0
+          command: ["uvicorn"]
+          args: ["app.main:app", "--host", "0.0.0.0", "--port", "8000"]
